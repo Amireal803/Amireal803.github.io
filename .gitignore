@@ -11,6 +11,7 @@ resources/_gen/
 # Logs ＆ Errs
 *.log
 *.err
+.hugo-server.err
 
 # Editor and OS files
 .vscode/
