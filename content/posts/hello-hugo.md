@@ -6,4 +6,4 @@ tags: ["Hugo", "PaperMod"]
 categories: ["Site"]
 ---
 
-The first post. This site now uses Hugo with the PaperMod theme.
+what

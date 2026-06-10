@@ -1,0 +1,68 @@
+/* ============================================================
+   Full-page background image with low opacity
+   Place your background image at: static/images/bg.jpg
+   Or update the url() below to point to your image.
+   ============================================================ */
+
+/* ---- Background overlay layer ---- */
+body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    transition: opacity 0.7s ease;
+}
+
+/* Dark mode (default): bg.jpg */
+[data-theme="dark"] body::before {
+    background:
+        url('/images/bg.jpg') center / cover no-repeat,
+        linear-gradient(135deg,
+            rgba(10, 10, 25, 0.15) 0%,
+            rgba(20, 20, 45, 0.12) 50%,
+            rgba(15, 15, 30, 0.18) 100%
+        );
+    opacity: 0.4;
+}
+
+/* Light mode: bg2.jpg */
+[data-theme="light"] body::before {
+    background:
+        url('/images/bg2.jpg') center / cover no-repeat,
+        linear-gradient(135deg,
+            rgba(30, 30, 50, 0.06) 0%,
+            rgba(50, 50, 80, 0.04) 30%,
+            rgba(20, 20, 40, 0.05) 60%,
+            rgba(40, 40, 60, 0.03) 100%
+        );
+    opacity: 0.3;
+}
+
+/* ============================================================
+   Sparkle dot — styled by JS, themed via data-theme
+   ============================================================ */
+.sparkle-dot {
+    position: fixed;
+    pointer-events: none;
+    z-index: 0;
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    opacity: 0;
+    /* warm blue-gold sparkle for light mode */
+    background: rgba(80, 80, 160, 0.55);
+    box-shadow: 0 0 6px 2px rgba(80, 80, 160, 0.25);
+    transition: opacity 0.35s ease-out;
+    will-change: opacity;
+}
+
+.sparkle-dot.on {
+    opacity: 1;
+    transition: opacity 0.2s ease-in;
+}
+
+[data-theme="dark"] .sparkle-dot {
+    background: rgba(210, 215, 255, 0.7);
+    box-shadow: 0 0 8px 3px rgba(180, 190, 255, 0.35);
+}

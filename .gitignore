@@ -8,8 +8,9 @@ resources/_gen/
 .env.*
 !.env.example
 
-# Logs
+# Logs ＆ Errs
 *.log
+*.err
 
 # Editor and OS files
 .vscode/

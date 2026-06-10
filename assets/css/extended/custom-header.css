@@ -1,0 +1,376 @@
+/* ============================================================
+   Custom header — three-zone layout
+   Left:   HOME label + GitHub avatar (HOME → avatar order)
+   Center: Home | Categories | Posts
+   Right:  Search form + theme toggle
+   ============================================================ */
+
+/* ---- Global font boost ---- */
+:root {
+    font-size: 17px;
+}
+
+body {
+    font-size: 1.05rem;
+    line-height: 1.7;
+}
+
+/* ---- Whole-page 0.5s theme transition ---- */
+*,
+*::before,
+*::after {
+    transition: background-color 0.7s ease,
+                color 0.7s ease,
+                border-color 0.7s ease,
+                box-shadow 0.7s ease,
+                text-shadow 0.7s ease;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        transition: none !important;
+    }
+}
+
+/* ---- Container ---- */
+.custom-nav {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    max-width: calc(var(--nav-width) + var(--gap) * 2);
+    margin: auto;
+    padding: 0 var(--gap);
+    height: var(--header-height);
+    position: relative;
+    z-index: 10;
+}
+
+/* ---- Left zone — avatar | Github+subtitle ---- */
+.nav-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    min-width: 0;
+}
+
+/* Avatar link */
+.avatar-link {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    text-decoration: none;
+    border-radius: 50%;
+    transition: all 0.25s ease;
+}
+
+.avatar-link:hover .github-avatar {
+    border-color: var(--primary);
+    box-shadow: 0 0 12px rgba(120, 120, 255, 0.4);
+}
+
+.github-avatar {
+    border-radius: 50%;
+    border: 2.5px solid var(--border);
+    transition: all 0.25s ease;
+    display: block;
+    width: 56px;
+    height: 56px;
+}
+
+/* Github text + subtitle stacked vertically, right of avatar */
+.github-text-group {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+/* Github text link */
+.home-link {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    white-space: nowrap;
+    text-decoration: none;
+    color: var(--primary);
+    flex-shrink: 0;
+    transition: all 0.25s ease;
+    line-height: 1.2;
+}
+
+.home-link:hover {
+    text-shadow: 0 0 14px var(--primary);
+    letter-spacing: 3px;
+}
+
+/* Subtitle below Github — editable via hugo.yaml homeInfoParams.Title */
+.nav-subtitle {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    white-space: nowrap;
+    line-height: 1.2;
+    opacity: 0.75;
+}
+
+/* ---- Center zone ---- */
+.nav-center {
+    display: flex;
+    justify-content: center;
+}
+
+.center-menu {
+    display: flex;
+    list-style: none;
+    gap: 40px;
+    margin: 0;
+    padding: 0;
+}
+
+.center-menu li {
+    margin: 0;
+}
+
+.center-menu-link {
+    font-size: 1.3rem;
+    font-weight: 800;
+    text-decoration: none;
+    color: var(--secondary);
+    transition: all 0.25s ease;
+    position: relative;
+    padding: 4px 2px;
+}
+
+.center-menu-link:hover {
+    color: var(--primary);
+    text-shadow: 0 0 14px var(--primary);
+}
+
+.center-menu-link.active {
+    color: var(--primary);
+    font-weight: 700;
+    text-shadow: 0 0 8px rgba(120, 120, 255, 0.3);
+}
+
+.center-menu-link.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--primary);
+    border-radius: 2px;
+    box-shadow: 0 0 10px var(--primary);
+}
+
+/* ---- Right zone ---- */
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+/* Search form */
+.search-form {
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+.search-input {
+    width: 180px;
+    height: 36px;
+    padding: 0 38px 0 14px;
+    font-size: 0.95rem;
+    color: var(--primary);
+    background: var(--entry);
+    border: 1.5px solid var(--border);
+    border-radius: 20px;
+    outline: none;
+    transition: all 0.25s ease;
+}
+
+.search-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 14px rgba(128, 128, 128, 0.25);
+    width: 220px;
+}
+
+.search-input::placeholder {
+    color: var(--secondary);
+    opacity: 0.7;
+    font-size: 0.9rem;
+}
+
+.search-submit {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border: none;
+    background: transparent;
+    color: var(--secondary);
+    cursor: pointer;
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.search-submit:hover {
+    color: var(--primary);
+    background: var(--border);
+}
+
+/* Theme toggle — icons crossfade with rotation */
+.theme-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1.5px solid var(--border);
+    background: var(--entry);
+    color: var(--primary);
+    cursor: pointer;
+    border-radius: 50%;
+    position: relative;
+    transition: border-color 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
+}
+
+.theme-toggle:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 14px rgba(128, 128, 128, 0.3);
+    background: var(--code-bg);
+}
+
+.theme-toggle svg {
+    position: absolute;
+    transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+/* Light mode (default): moon visible, sun hidden */
+.theme-toggle .moon {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+}
+
+.theme-toggle .sun {
+    opacity: 0;
+    transform: scale(0.4) rotate(90deg);
+    pointer-events: none;
+}
+
+/* Dark mode: sun visible, moon hidden */
+[data-theme="dark"] .theme-toggle .moon {
+    opacity: 0;
+    transform: scale(0.4) rotate(-90deg);
+    pointer-events: none;
+}
+
+[data-theme="dark"] .theme-toggle .sun {
+    opacity: 1;
+    transform: scale(1) rotate(0deg);
+    pointer-events: auto;
+}
+
+/* ---- Original PaperMod menu — hidden ---- */
+.custom-nav #menu.menu {
+    display: none;
+}
+
+/* ---- Home hero — centered title, bottom-to-top gradient fade-in ---- */
+.home-hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+    padding: 0 var(--gap);
+}
+
+.hero-title {
+    font-size: 4rem;
+    font-weight: 800;
+    text-align: center;
+    letter-spacing: 1px;
+    /* Gradient text */
+    background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 50%, var(--primary) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Bottom-to-top fade-in animation */
+    animation: heroRise 1s ease-out forwards,
+               heroShimmer 4s ease-in-out infinite 1s;
+}
+
+@keyframes heroRise {
+    from {
+        opacity: 0;
+        transform: translateY(48px);
+        filter: blur(4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+        filter: blur(0);
+    }
+}
+
+@keyframes heroShimmer {
+    0%, 100% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+}
+
+/* ---- Responsive ---- */
+@media (max-width: 768px) {
+    :root {
+        font-size: 16px;
+    }
+
+    .custom-nav {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto auto;
+        height: auto;
+        padding: 10px var(--gap);
+        gap: 8px;
+    }
+
+    .nav-left {
+        justify-content: flex-start;
+    }
+
+    .nav-center {
+        justify-content: center;
+        order: 3;
+    }
+
+    .center-menu {
+        gap: 28px;
+    }
+
+    .nav-right {
+        justify-content: flex-end;
+    }
+
+    .search-input {
+        width: 140px;
+    }
+
+    .search-input:focus {
+        width: 170px;
+    }
+
+    .github-avatar {
+        width: 42px;
+        height: 42px;
+    }
+}

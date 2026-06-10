@@ -15,6 +15,10 @@ minify:
   disableXML: true
   minifyOutput: true
 
+taxonomies:
+  category: categories
+  tag: tags
+
 params:
   env: production
   title: "Amireal803"
@@ -24,7 +28,7 @@ params:
     - Portfolio
     - Hugo
   author: "Amireal803"
-  defaultTheme: auto
+  defaultTheme: dark
   ShowReadingTime: true
   ShowShareButtons: true
   ShowPostNavLinks: true
@@ -33,21 +37,13 @@ params:
   ShowWordCount: true
   ShowRssButtonInSectionTermList: true
   UseHugoToc: true
-  disableSpecial1stPost: false
+  disableSpecial1stPost: true
   disableScrollToTop: false
   comments: false
   hidemeta: false
   hideSummary: false
   showtoc: false
   tocopen: false
-
-  homeInfoParams:
-    Title: "Hi, I'm Amireal803"
-    Content: "A personal site built with Hugo and PaperMod."
-
-  socialIcons:
-    - name: github
-      url: "https://github.com/Amireal803"
 
 menu:
   main:
