@@ -1,0 +1,179 @@
+/* ============================================================
+   Post page — content box + headings + blockquotes + images
+   ============================================================ */
+
+/* ---- Wider post content area ---- */
+:root {
+    --main-width: 1080px;
+}
+
+/* ---- Entire post wrapped in a card ---- */
+.post-single {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--gap);
+}
+
+/* ---- Post content area ---- */
+.post-content {
+    color: var(--content);
+}
+
+/* ---- Headings ---- */
+.md-content h1 {
+    font-size: 2rem;
+    font-weight: 800;
+    margin: 1.6em 0 0.5em;
+    padding-bottom: 0.3em;
+    border-bottom: 2px solid var(--border);
+    color: var(--primary);
+}
+
+.md-content h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin: 1.4em 0 0.4em;
+    padding-bottom: 0.25em;
+    border-bottom: 1px solid var(--border);
+    color: var(--primary);
+}
+
+.md-content h3 {
+    font-size: 1.35rem;
+    font-weight: 700;
+    margin: 1.2em 0 0.3em;
+    color: var(--primary);
+}
+
+.md-content h4 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin: 1em 0 0.25em;
+    color: var(--secondary);
+}
+
+.md-content h5,
+.md-content h6 {
+    font-size: 1rem;
+    font-weight: 600;
+    margin: 0.8em 0 0.2em;
+    color: var(--secondary);
+}
+
+/* First heading after title should have less top margin */
+.md-content h1:first-child,
+.md-content h2:first-child,
+.md-content h3:first-child {
+    margin-top: 0.3em;
+}
+
+/* ---- Blockquotes ---- */
+.md-content blockquote {
+    margin: 1.2em 0;
+    padding: 0.8em 1.2em;
+    border-left: 4px solid var(--primary);
+    background: var(--code-bg);
+    border-radius: 0 var(--radius) var(--radius) 0;
+    color: var(--secondary);
+    font-style: italic;
+}
+
+.md-content blockquote p:first-child {
+    margin-top: 0;
+}
+
+.md-content blockquote p:last-child {
+    margin-bottom: 0;
+}
+
+/* ---- Inline code ---- */
+.md-content code:not(pre code) {
+    background: var(--code-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.15em 0.4em;
+    font-size: 0.9em;
+    color: var(--primary);
+}
+
+/* ---- Horizontal rules ---- */
+.md-content hr {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 2em 0;
+}
+
+/* ---- Lists ---- */
+.md-content ul,
+.md-content ol {
+    padding-left: 1.5em;
+}
+
+.md-content li {
+    margin: 0.3em 0;
+}
+
+/* ---- Tables ---- */
+.md-content table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1em 0;
+}
+
+.md-content th,
+.md-content td {
+    border: 1px solid var(--border);
+    padding: 0.5em 0.8em;
+    text-align: left;
+}
+
+.md-content th {
+    background: var(--code-bg);
+    font-weight: 700;
+}
+
+/* ---- Intro blockquote (first blockquote, styled as intro) ---- */
+.md-content > blockquote:first-of-type {
+    font-size: 1.3rem;
+    font-weight: 500;
+    color: var(--primary);
+    border-left: 4px solid var(--primary);
+    background: var(--code-bg);
+    padding: 1em 1.4em;
+    margin: 0.5em 0 1.8em;
+    border-radius: 0 var(--radius) var(--radius) 0;
+    font-style: normal;
+    line-height: 1.8;
+}
+
+/* ---- Post images ---- */
+.md-content img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em auto;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.08);
+}
+
+[data-theme="dark"] .md-content img {
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Images with figcaption (Hugo figure shortcode) */
+.md-content figure {
+    margin: 1.5em 0;
+    text-align: center;
+}
+
+.md-content figure img {
+    margin-bottom: 0.5em;
+}
+
+.md-content figcaption {
+    font-size: 0.9rem;
+    color: var(--secondary);
+    font-style: italic;
+}
