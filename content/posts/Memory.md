@@ -30,7 +30,64 @@ categories: ["Optimization"]
 
 - **时间局部性 (Temporal Locality)：** 如果一个内存的地址被访问了一次，那么在将来有可能会被多次引用。
 
+{{< cpp >}}
+
+{{< /cpp >}}
+
 - **空间局部性 (Spatial Locality)：** 如果一个内存的地址被访问了一次，那么在将来有可能这个内存附近的内存地址也会被引用。
+
+{{< cpp >}}
+#include <iostream>
+#include <vector>
+#include <chrono>
+#include <cstddef>
+
+int main() {
+	constexpr std::size_t N = 4096;
+	std::vector<int> array(N * N, 1);
+	long long sum = 0;
+
+	/* 1.按行访问时:
+		 内存地址在物理上完全连续，当CPU首次不命中后，内存控制器会以64字节为单位的缓存行
+         将数据块加载至L1缓存和DRAM行缓冲区
+	*/
+	const auto row_start = std::chrono::steady_clock::now();
+	for (std::size_t i = 0; i < N; i++) {
+		for (std::size_t j = 0; j < N; j++) {
+			sum += array[i * N + j];
+		}
+	}	
+	const auto row_end = std::chrono::steady_clock::now();
+	const auto row_duration = std::chrono::duration_cast<std::chrono::milliseconds>(row_end - row_start);
+	std::cout << "按行访问耗时：" << row_duration.count() << "ms\n";
+
+	/* 2.按列访问：
+		 每次内层循环i增加1，由于C语言是按行存储，下一个数据的物理地址直接跳过了4096 × 4 = 16KB
+		 直接导致DRAM行缓冲区频繁关闭、重新充电，同时超出行缓冲区范围，引发容量未命中以及冲突未命中。
+	*/
+	const auto col_start = std::chrono::steady_clock::now();
+	for (std::size_t j = 0; j < N; j++) {
+		for (std::size_t i = 0; i < N; i++) {
+			sum += array[i * N + j];
+		}
+	}	
+	const auto col_end = std::chrono::steady_clock::now();
+	const auto col_duration = std::chrono::duration_cast<std::chrono::milliseconds>(col_end - col_start);
+	std::cout << "按列访问耗时：" << col_duration.count() << "ms\n";
+
+    // 防-O2/-O3优化
+    std::cout << "校验和：" << sum; 
+
+	return 0;
+}
+{{< /cpp >}}
+
+**运行结果：**
+{{< cpp >}}
+    按行访问耗时：~40ms
+    按列访问耗时：~200ms
+{{< /cpp >}}
+
 
 
 
@@ -40,13 +97,15 @@ categories: ["Optimization"]
 
 **以下图为例：**
 
-- 第 *k+1* 层的存储器被划分成连续的数据对象**组块(chunk)**，称为**块(block)**。每个块都有唯一的地址或名字使之区别于其他块。块**通常是固定大小的**。类似的，第 *k* 层的存储器被划分为更少的块的集合，每个块的大小与 *k+1* 层的块大小相同。任何时刻，第 *k* 层的缓存包含第 *k+1* 层的子集的副本。
+- 第 *k+1* 层的存储器被划分成连续的数据对象**组块(chunk)**，称为**块(block)**。每个块都有唯一的地址或名字使之区别于其他块。块通常是固定大小的。类似的，第 *k* 层的存储器被划分为更少的块的集合，每个块的大小与 *k+1* 层的块大小相同。任何时刻，第 *k* 层的缓存包含第 *k+1* 层的子集的副本。
 
 - 数据总是以块为大小的**传送单元(transfer unit)** 在第 *k* 层与第 *k+1* 层**来回复制**的
 
 ![Fundamental Cache Principle](/images/memory/cache_principle.png)
 
 **一般而言，层次结构中较低层的设备的访问时间越长，因此为了补偿访问过程中浪费的时间，倾向于使用较大的块。**
+
+- **缓存行(Cache Line)：** 缓存和主存之间数据传输的最小单元，通常为 64 字节。当 CPU 从主存中请求一个字节时，整个缓存行都会被加载到缓存中。
 
 - **缓存命中(Cache Hit)：** 当程序需要读取第 *k + 1* 层的某个数据对象 *d* 时，*d* 刚好缓存在第 *k* 层的一个块中，这种情况就称为缓存命中。
 
@@ -89,6 +148,8 @@ categories: ["Optimization"]
 
 因此存储单元被设计成二维的阵列而不是线性的数组，是以牺牲部分初期访问时间为代价，换取芯片地址引脚数量的大幅降低。
 
+
+
 # 4. Memory Modules
 
 - DRAM芯片封装在 **内存模块(Memory Module)** 中
@@ -100,6 +161,26 @@ categories: ["Optimization"]
 - 该模块一共使用8个DRAM芯片，编号分别用0 ~ 7表示，每个DRAM芯片大小为8M × 8bit = 64Mbit，即8MB，因此整个模块大小为64MB。假设每个超单元可以存储8bit数据，那么对于8字节(64bit)的数据就需要8个超单元来存储，这8个超单元平均分布在8个DRAM芯片上，其中DRAM 0存储低8位，DRAM 1存储下一字节，以此类推。
 
 - 当处理器向内存控制器发起读取8字节数据的请求时，内存控制器将内存地址转换成一个超单元地址 *( i, j )* 发送到内存模块，内存模块将 行地址 *i* 和 列地址 *j* 广播到每个DRAM，每个DRAM输出对应超单元的数据，最后内存模块将所有超单元的数据整合成一个64bit的数据返回给内存控制器。
+
+
+
+# 5. Memory Wall
+
+> 内存墙(Memory Wall)是指内存性能严重限制CPU或算力芯片性能发挥的现象，主要由宽带不足和访问延迟造成。
+
+- 电脑的数据访问延迟绝大部分是由“缓存有没有命中”决定的。通常用 **平均内存访问时间(AMAT)** 衡量，公式如下：
+
+{{< math >}}
+
+**AMAT = *Hit Time* + *Miss Rate* × *Miss Penalty***
+
+{{< /math >}}
+
+**Hit Time (命中时间)：** 命中时的访问时间。
+
+**Miss Rate (未命中率)：** 缓存中未找到数据的概率。
+
+**Miss Penalty (未命中惩罚)：** 数据未命中时从主存加载数据所需的时间。
 
 
 
