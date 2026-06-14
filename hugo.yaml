@@ -11,6 +11,10 @@ buildExpired: false
 pagination:
   pagerSize: 10
 
+markup:
+  highlight:
+    style: nord
+
 minify:
   disableXML: true
   minifyOutput: true
