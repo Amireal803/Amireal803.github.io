@@ -156,16 +156,44 @@
     font-weight: 700;
 }
 
+/* ---- C++ code block ---- */
+.cpp-block {
+    margin: 1.2em 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow-x: auto;
+}
+
+.cpp-block .highlight {
+    margin: 0;
+    border-radius: var(--radius);
+}
+
+.cpp-block .highlight pre {
+    padding: 1em;
+    font-size: 1.1rem;
+    line-height: 1.65;
+    font-weight: bold;
+    font-family: JetBrains\ Mono, Consolas, Monaco, monospace;
+}
+
+.cpp-block .highlight code,
+.cpp-block .highlight code span {
+    font-family: JetBrains\ Mono, Consolas, Monaco, monospace;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
 /* ---- Math formula box ---- */
 .math-box {
     background: var(--entry);
     border: 1px solid var(--border);
-    border-left: 4px solid var(--primary);
     border-radius: var(--radius);
-    padding: 1em 1.4em;
+    padding: 1.8em 1.8em;
     margin: 1.2em 0;
     overflow-x: auto;
     font-family: "Cambria Math", "Latin Modern Math", "STIX Two Math", serif;
+    text-align: center;
 }
 
 .math-box p {
