@@ -20,6 +20,29 @@
     color: var(--content);
 }
 
+/* ---- Body text ---- */
+.md-content p,
+.md-content li {
+    font-size: 1.3rem;
+    font-weight: 425;
+    line-height: 1.75;
+}
+
+.md-content strong,
+.md-content b {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.md-content em,
+.md-content i {
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-style: oblique;
+    color: var(--primary);
+}
+
 /* ---- Headings ---- */
 .md-content h1 {
     font-size: 2rem;
@@ -133,6 +156,22 @@
     font-weight: 700;
 }
 
+/* ---- Math formula box ---- */
+.math-box {
+    background: var(--entry);
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--primary);
+    border-radius: var(--radius);
+    padding: 1em 1.4em;
+    margin: 1.2em 0;
+    overflow-x: auto;
+    font-family: "Cambria Math", "Latin Modern Math", "STIX Two Math", serif;
+}
+
+.math-box p {
+    margin: 0.4em 0;
+}
+
 /* ---- Intro blockquote (first blockquote, styled as intro) ---- */
 .md-content > blockquote:first-of-type {
     font-size: 1.3rem;
@@ -162,7 +201,7 @@
     box-shadow: 0 2px 12px rgba(0, 0, 0, 0.3);
 }
 
-/* Images with figcaption (Hugo figure shortcode) */
+/* Images with figcaption */
 .md-content figure {
     margin: 1.5em 0;
     text-align: center;
